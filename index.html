@@ -559,8 +559,7 @@
         <div class="input-group">
             <input type="password" required>
             <label>Password</label>
-        </div>
-        <button class="login-btn">Enter the Cosmos</button>
+        </div><button class="login-btn" onclick="redirectToCosmos()">Enter the Cosmos</button>
     </div>
     
     <!-- Quotes page -->
@@ -816,6 +815,11 @@
                 });
             }, 100);
         });
+        // Redirect to star.html on login
+function redirectToCosmos() {
+    window.location.href = "star.html";
+}
+
     </script>
 </body>
 </html>
