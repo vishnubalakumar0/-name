@@ -3,131 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Login Experience</title>
+    <title>Cosmic Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Exo', sans-serif;
             overflow: hidden;
             position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 50%, #0a0a2a 100%);
+            color: #fff;
         }
 
-        /* Cosmic background */
-        .cosmic-background {
+        /* Space background */
+        .space-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at center, rgba(20, 20, 50, 0.2) 0%, rgba(10, 10, 30, 0.5) 100%);
-            z-index: -3;
-        }
-
-        /* Galaxy animation */
-        .galaxy {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 800 800"><g fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"><circle cx="400" cy="400" r="300"/><circle cx="400" cy="400" r="250"/><circle cx="400" cy="400" r="200"/><circle cx="400" cy="400" r="150"/><circle cx="400" cy="400" r="100"/><circle cx="400" cy="400" r="50"/></g></svg>') center/cover;
-            opacity: 0.3;
-            animation: rotate 120s linear infinite;
-            z-index: -2;
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg) scale(1);
-            }
-            50% {
-                transform: rotate(180deg) scale(1.5);
-            }
-            100% {
-                transform: rotate(360deg) scale(1);
-            }
-        }
-
-        /* Nebula effect */
-        .nebula {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at center, 
-                rgba(100, 0, 255, 0.1) 0%, 
-                rgba(0, 0, 0, 0) 70%),
-                radial-gradient(ellipse at 80% 40%, 
-                rgba(255, 0, 100, 0.1) 0%, 
-                rgba(0, 0, 0, 0) 70%),
-                radial-gradient(ellipse at 10% 60%, 
-                rgba(0, 200, 255, 0.1) 0%, 
-                rgba(0, 0, 0, 0) 70%);
-            opacity: 0.5;
-            animation: nebula-pulse 15s ease-in-out infinite alternate;
-            z-index: -2;
-        }
-
-        @keyframes nebula-pulse {
-            0% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0.7;
-                transform: scale(1.2);
-            }
+            z-index: 0;
+            overflow: hidden;
         }
 
         /* Stars */
         .stars {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 1;
         }
 
         .star {
             position: absolute;
-            background: white;
+            background-color: #fff;
             border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            opacity: var(--opacity);
+            animation: twinkle var(--duration, 3s) ease-in-out infinite;
+            opacity: var(--opacity, 0.7);
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: var(--opacity); }
+            0%, 100% { opacity: var(--opacity, 0.7); }
             50% { opacity: 0.2; }
         }
 
-        /* Falling stars */
-        .falling-star {
+        /* Nebula effect */
+        .nebula {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(111, 0, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 183, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 128, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+            animation: nebula-drift 60s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes nebula-drift {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
             position: absolute;
             width: 2px;
             height: 2px;
-            background: white;
+            background-color: #fff;
             border-radius: 50%;
-            animation: fall var(--fall-duration) linear forwards;
+            animation: shoot var(--duration, 3s) linear forwards;
             opacity: 0;
-            z-index: -1;
+            z-index: 2;
         }
 
-        @keyframes fall {
+        @keyframes shoot {
             0% {
-                transform: translateY(-100vh) translateX(0) rotate(0deg);
+                transform: translate(0, 0) rotate(var(--angle, 45deg));
                 opacity: 1;
                 width: 2px;
                 height: 2px;
@@ -137,10 +101,10 @@
                 opacity: 1;
                 width: 4px;
                 height: 4px;
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(70, 131, 255, 0.3);
             }
             100% {
-                transform: translateY(100vh) translateX(var(--translateX)) rotate(var(--rotate));
+                transform: translate(var(--distance, 300px), var(--distance, 300px)) rotate(var(--angle, 45deg));
                 opacity: 0;
                 width: 2px;
                 height: 2px;
@@ -148,218 +112,38 @@
             }
         }
 
-        /* Cosmic dust particles */
-        .dust-particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: float var(--float-duration) linear infinite;
-            opacity: var(--dust-opacity);
-            z-index: -1;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            100% {
-                transform: translate(var(--translateX), var(--translateY)) rotate(var(--rotate));
-            }
-        }
-
-        /* Login container */
-        .container {
-            position: relative;
-            width: 350px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2),
-                        0 0 30px rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            z-index: 10;
-            padding: 40px;
-            transform-style: preserve-3d;
-            animation: containerFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes containerFloat {
-            0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
-            25% { transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); }
-            50% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
-            75% { transform: translateY(10px) rotateX(-2deg) rotateY(2deg); }
-        }
-
-        .form {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        h2 {
-            color: white;
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-bottom: 30px;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-            50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 30px rgba(120, 0, 255, 0.5); }
-        }
-
-        .inputBox {
-            position: relative;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-
-        .inputBox input {
-            width: 100%;
-            padding: 10px 0;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            outline: none;
-            font-size: 16px;
-            letter-spacing: 1px;
-            color: white;
-            transition: 0.5s;
-        }
-
-        .inputBox input:focus {
-            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
-        }
-
-        .inputBox label {
-            position: absolute;
-            left: 0;
-            padding: 10px 0;
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.5);
-            pointer-events: none;
-            transition: 0.5s;
-        }
-
-        .inputBox input:focus ~ label,
-        .inputBox input:valid ~ label {
-            transform: translateY(-20px);
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            letter-spacing: 1.5px;
-        }
-
-        .inputBox input:focus ~ .bar:before,
-        .inputBox input:valid ~ .bar:before {
-            width: 100%;
-        }
-
-        .bar {
-            position: relative;
-            display: block;
-            width: 100%;
-        }
-
-        .bar:before {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            transition: 0.5s;
-        }
-
-        .btn {
-            position: relative;
-            width: 100%;
-            padding: 12px 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 30px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            transition: 0.5s;
-        }
-
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
-                        0 0 20px rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover:before {
-            left: 100%;
-        }
-
-        .shimmer {
-            animation: shimmer 1s linear;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -100% 0; }
-            100% { background-position: 200% 0; }
-        }
-
         /* Navigation buttons */
-        .nav-buttons {
+        .side-nav {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 30px;
             z-index: 100;
         }
 
         .nav-btn {
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
+            font-family: 'Orbitron', sans-serif;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
             color: white;
-            font-size: 14px;
+            font-size: 16px;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: 0.3s;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2),
-                        0 0 15px rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         .nav-btn:before {
@@ -377,203 +161,463 @@
             left: 100%;
         }
 
-        /* Butterfly styles */
-        .butterfly {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        .butterfly .wing {
-            position: absolute;
-            width: 20px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50% 50% 0 50%;
-            transform-origin: bottom right;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .butterfly .wing.left {
-            left: 5px;
-            transform: rotate(30deg);
-            animation: flapLeft 2s infinite ease-in-out;
-            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
-        }
-
-        .butterfly .wing.right {
-            right: 5px;
-            transform: scaleX(-1) rotate(30deg);
-            animation: flapRight 2s infinite ease-in-out;
-            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
-        }
-
-        .butterfly .body {
-            position: absolute;
-            width: 4px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.5);
+        /* Login modal */
+        .login-modal {
+            position: fixed;
+            top: 50%;
             left: 50%;
-            top: 10px;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%) scale(0);
+            width: 400px;
+            background: rgba(10, 10, 40, 0.8);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 30px rgba(111, 0, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
         }
 
-        @keyframes flapLeft {
-            0%, 100% { transform: rotate(30deg); }
-            50% { transform: rotate(70deg); }
+        .login-modal.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
         }
 
-        @keyframes flapRight {
-            0%, 100% { transform: scaleX(-1) rotate(30deg); }
-            50% { transform: scaleX(-1) rotate(70deg); }
-        }
-
-        /* Social links */
-        .social-links {
+        .login-modal:before {
+            content: '';
             position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(111, 0, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
         }
 
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .login-modal h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(111, 0, 255, 0.5);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            outline: none;
+            font-size: 16px;
+            color: white;
+            transition: 0.5s;
+            font-family: 'Exo', sans-serif;
+        }
+
+        .input-group input:focus {
+            border-bottom: 2px solid rgba(111, 0, 255, 0.8);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 0;
+            padding: 12px 0;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            transition: 0.5s;
+        }
+
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label {
+            transform: translateY(-20px);
+            font-size: 12px;
+            color: rgba(111, 0, 255, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px 0;
+            background: rgba(111, 0, 255, 0.3);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.5s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            background: rgba(111, 0, 255, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(111, 0, 255, 0.4);
+        }
+
+        .login-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .login-btn:hover:before {
+            left: 100%;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
             background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             font-size: 18px;
-            transition: 0.3s;
             cursor: pointer;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
-                        0 0 15px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Forgot password link */
-        .forgot-password {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .forgot-password a {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            font-size: 14px;
             transition: 0.3s;
         }
 
-        .forgot-password a:hover {
-            color: white;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
         }
 
-        /* Remember me checkbox */
-        .remember-me {
+        /* Quotes page */
+        .quotes-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 40, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
             display: flex;
+            justify-content: center;
             align-items: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
         }
 
-        .remember-me input {
-            margin-right: 10px;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-            outline: none;
-            cursor: pointer;
+        .quotes-page.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .quotes-container {
+            width: 80%;
+            max-width: 800px;
+            padding: 50px;
+            background: rgba(10, 10, 40, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 183, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        .quotes-container:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 183, 255, 0.05) 0%, transparent 70%);
+            animation: quote-glow 30s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes quote-glow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .quote {
+            font-family: 'Exo', sans-serif;
+            color: white;
+            font-size: 28px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 183, 255, 0.5);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .quote.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .author {
+            font-family: 'Orbitron', sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s, transform 0.8s;
+            transition-delay: 0.3s;
+        }
+
+        .author.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .next-quote-btn {
+            padding: 12px 30px;
+            background: rgba(0, 183, 255, 0.3);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.5s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .next-quote-btn:hover {
+            background: rgba(0, 183, 255, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 183, 255, 0.4);
+        }
+
+        .close-quotes-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
             transition: 0.3s;
         }
 
-        .remember-me input:checked {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
+        .close-quotes-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
         }
 
-        .remember-me input:checked:after {
-            content: '✓';
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 500;
+            pointer-events: none;
+            transition: background 0.5s;
+        }
+
+        .overlay.active {
+            background: rgba(0, 0, 0, 0.5);
+            pointer-events: all;
+        }
+
+        /* Welcome text */
+        .welcome-text {
             position: absolute;
-            color: white;
-            font-size: 14px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            width: 80%;
+            max-width: 800px;
         }
 
-        .remember-me label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            cursor: pointer;
+        .welcome-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(111, 0, 255, 0.5);
+            animation: title-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes title-pulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(111, 0, 255, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(111, 0, 255, 0.8), 0 0 60px rgba(0, 183, 255, 0.5); }
+        }
+
+        .welcome-text p {
+            font-family: 'Exo', sans-serif;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .side-nav {
+                left: 20px;
+            }
+            
+            .welcome-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-text p {
+                font-size: 1.2rem;
+            }
+            
+            .login-modal {
+                width: 90%;
+                max-width: 400px;
+                padding: 30px;
+            }
+            
+            .quotes-container {
+                width: 90%;
+                padding: 30px;
+            }
+            
+            .quote {
+                font-size: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Cosmic background layers -->
-    <div class="cosmic-background"></div>
-    <div class="galaxy"></div>
-    <div class="nebula"></div>
+    <!-- Space background -->
+    <div class="space-container">
+        <div class="nebula"></div>
+        <div class="stars"></div>
+    </div>
     
-    <!-- Stars container -->
-    <div class="stars"></div>
+    <!-- Welcome text -->
+    <div class="welcome-text">
+        <h1>Cosmic Explorer</h1>
+        <p>Journey through the stars and discover the wonders of the universe</p>
+    </div>
     
-    <!-- Navigation buttons -->
-    <div class="nav-buttons">
+    <!-- Side navigation -->
+    <div class="side-nav">
         <button class="nav-btn login-nav-btn">Login</button>
-        <button class="nav-btn">Home</button>
-        <button class="nav-btn">About</button>
-        <button class="nav-btn">Contact</button>
-    </div>
-
-    <div class="container">
-        <div class="form">
-            <h2>Cosmic Login</h2>
-            <div class="inputBox">
-                <input type="text" required>
-                <span class="bar"></span>
-                <label>Username</label>
-            </div>
-            <div class="inputBox">
-                <input type="password" required>
-                <span class="bar"></span>
-                <label>Password</label>
-            </div>
-            
-            <div class="remember-me">
-                <input type="checkbox" id="remember">
-                <label for="remember">Remember me</label>
-            </div>
-            
-            <button class="btn">Enter the Cosmos</button>
-            
-            <div class="forgot-password">
-                <a href="#">Forgot Password?</a>
-            </div>
-        </div>
+        <button class="nav-btn help-nav-btn">Help</button>
     </div>
     
-    <div class="social-links">
-        <div class="social-icon">f</div>
-        <div class="social-icon">in</div>
-        <div class="social-icon">G</div>
+    <!-- Overlay -->
+    <div class="overlay"></div>
+    
+    <!-- Login modal -->
+    <div class="login-modal">
+        <div class="close-btn">&times;</div>
+        <h2>Stellar Access</h2>
+        <div class="input-group">
+            <input type="text" required>
+            <label>Username</label>
+        </div>
+        <div class="input-group">
+            <input type="password" required>
+            <label>Password</label>
+        </div>
+        <button class="login-btn">Enter the Cosmos</button>
+    </div>
+    
+    <!-- Quotes page -->
+    <div class="quotes-page">
+        <div class="quotes-container">
+            <div class="close-quotes-btn">&times;</div>
+            <div class="quote"></div>
+            <div class="author"></div>
+            <button class="next-quote-btn">Next Quote</button>
+        </div>
     </div>
 
     <script>
+        // Space quotes collection
+        const spaceQuotes = [
+            {
+                quote: "The universe is not only stranger than we imagine, it is stranger than we can imagine.",
+                author: "Sir Arthur Eddington"
+            },
+            {
+                quote: "We are all in the gutter, but some of us are looking at the stars.",
+                author: "Oscar Wilde"
+            },
+            {
+                quote: "I know nothing with any certainty, but the sight of the stars makes me dream.",
+                author: "Vincent Van Gogh"
+            },
+            {
+                quote: "The cosmos is within us. We are made of star-stuff. We are a way for the universe to know itself.",
+                author: "Carl Sagan"
+            },
+            {
+                quote: "Look up at the stars and not down at your feet. Try to make sense of what you see, and wonder about what makes the universe exist.",
+                author: "Stephen Hawking"
+            },
+            {
+                quote: "The stars are the land-marks of the universe.",
+                author: "Sir John Frederick William Herschel"
+            },
+            {
+                quote: "Space is for everybody. It's not just for a few people in science or math, or for a select group of astronauts. That's our new frontier out there, and it's everybody's business to know about space.",
+                author: "Christa McAuliffe"
+            },
+            {
+                quote: "The Earth is the cradle of humanity, but mankind cannot stay in the cradle forever.",
+                author: "Konstantin Tsiolkovsky"
+            },
+            {
+                quote: "I find hope in the darkest of days, and focus in the brightest. I do not judge the universe.",
+                author: "Dalai Lama"
+            },
+            {
+                quote: "When you look at the stars and the galaxy, you feel that you are not just from any particular piece of land, but from the solar system.",
+                author: "Kalpana Chawla"
+            }
+        ];
+        
         // Create stars
         function createStars() {
             const starsContainer = document.querySelector('.stars');
@@ -604,187 +648,173 @@
             }
         }
         
-        // Create falling stars
-        function createFallingStars() {
-            const body = document.querySelector('body');
+        // Create shooting stars
+        function createShootingStars() {
+            const spaceContainer = document.querySelector('.space-container');
             
-            function createFallingStar() {
+            function createShootingStar() {
                 const star = document.createElement('div');
-                star.className = 'falling-star';
+                star.className = 'shooting-star';
                 
                 // Random position
                 star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 50}%`;
                 
-                // Random fall duration
-                const fallDuration = Math.random() * 3 + 2;
-                star.style.setProperty('--fall-duration', `${fallDuration}s`);
+                // Random angle and distance
+                const angle = Math.random() * 60 + 30; // 30-90 degrees
+                star.style.setProperty('--angle', `${angle}deg`);
                 
-                // Random horizontal movement
-                const translateX = (Math.random() - 0.5) * 200;
-                star.style.setProperty('--translateX', `${translateX}px`);
+                const distance = Math.random() * 300 + 200; // 200-500px
+                star.style.setProperty('--distance', `${distance}px`);
                 
-                // Random rotation
-                const rotate = (Math.random() - 0.5) * 360;
-                star.style.setProperty('--rotate', `${rotate}deg`);
+                // Random duration
+                const duration = Math.random() * 2 + 1; // 1-3s
+                star.style.setProperty('--duration', `${duration}s`);
                 
-                body.appendChild(star);
+                spaceContainer.appendChild(star);
                 
                 // Remove star after animation completes
                 setTimeout(() => {
                     star.remove();
-                }, fallDuration * 1000);
+                }, duration * 1000);
             }
             
-            // Create a falling star every 1-3 seconds
+            // Create a shooting star every 2-6 seconds
             setInterval(() => {
-                createFallingStar();
-            }, Math.random() * 2000 + 1000);
+                createShootingStar();
+            }, Math.random() * 4000 + 2000);
         }
         
-        // Create cosmic dust particles
-        function createCosmicDust() {
-            const body = document.querySelector('body');
-            const dustCount = 100;
+        // Show login modal
+        function showLoginModal() {
+            const loginModal = document.querySelector('.login-modal');
+            const overlay = document.querySelector('.overlay');
             
-            for (let i = 0; i < dustCount; i++) {
-                const dust = document.createElement('div');
-                dust.className = 'dust-particle';
-                
-                // Random size
-                const size = Math.random() * 1.5 + 0.5;
-                dust.style.width = `${size}px`;
-                dust.style.height = `${size}px`;
-                
-                // Random position
-                dust.style.left = `${Math.random() * 100}%`;
-                dust.style.top = `${Math.random() * 100}%`;
-                
-                // Random opacity
-                const opacity = Math.random() * 0.5 + 0.1;
-                dust.style.setProperty('--dust-opacity', opacity);
-                
-                // Random movement
-                const translateX = (Math.random() - 0.5) * 100;
-                const translateY = (Math.random() - 0.5) * 100;
-                const rotate = Math.random() * 360;
-                dust.style.setProperty('--translateX', `${translateX}px`);
-                dust.style.setProperty('--translateY', `${translateY}px`);
-                dust.style.setProperty('--rotate', `${rotate}deg`);
-                
-                // Random animation duration
-                const floatDuration = Math.random() * 20 + 10;
-                dust.style.setProperty('--float-duration', `${floatDuration}s`);
-                
-                body.appendChild(dust);
+            overlay.classList.add('active');
+            loginModal.classList.add('active');
+            
+            // Create star burst effect around login button
+            const loginBtn = document.querySelector('.login-nav-btn');
+            const rect = loginBtn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.className = 'shooting-star';
+                    
+                    star.style.left = `${centerX}px`;
+                    star.style.top = `${centerY}px`;
+                    
+                    // Random angle (360 degrees)
+                    const angle = Math.random() * 360;
+                    star.style.setProperty('--angle', `${angle}deg`);
+                    
+                    // Random distance
+                    const distance = Math.random() * 200 + 100;
+                    star.style.setProperty('--distance', `${distance}px`);
+                    
+                    // Random duration
+                    const duration = Math.random() * 1.5 + 0.5;
+                    star.style.setProperty('--duration', `${duration}s`);
+                    
+                    document.body.appendChild(star);
+                    
+                    // Remove star after animation completes
+                    setTimeout(() => {
+                        star.remove();
+                    }, duration * 1000);
+                }, i * 50);
             }
         }
         
-        // Create and animate butterflies
-        function createButterflies() {
-            const numButterflies = 15;
-            const body = document.querySelector('body');
+        // Hide login modal
+        function hideLoginModal() {
+            const loginModal = document.querySelector('.login-modal');
+            const overlay = document.querySelector('.overlay');
             
-            for (let i = 0; i < numButterflies; i++) {
-                const butterfly = document.createElement('div');
-                butterfly.className = 'butterfly';
-                
-                const leftWing = document.createElement('div');
-                leftWing.className = 'wing left';
-                
-                const rightWing = document.createElement('div');
-                rightWing.className = 'wing right';
-                
-                const butterflyBody = document.createElement('div');
-                butterflyBody.className = 'body';
-                
-                butterfly.appendChild(leftWing);
-                butterfly.appendChild(rightWing);
-                butterfly.appendChild(butterflyBody);
-                
-                // Random position
-                butterfly.style.left = Math.random() * window.innerWidth + 'px';
-                butterfly.style.top = Math.random() * window.innerHeight + 'px';
-                
-                // Random size
-                const size = Math.random() * 0.5 + 0.5; // 0.5 to 1
-                butterfly.style.transform = `scale(${size})`;
-                
-                // Random animation duration
-                const animDuration = Math.random() * 5 + 5; // 5 to 10 seconds
-                leftWing.style.animationDuration = animDuration + 's';
-                rightWing.style.animationDuration = animDuration + 's';
-                
-                body.appendChild(butterfly);
-                
-                // Animate butterfly movement
-                animateButterfly(butterfly);
-            }
+            overlay.classList.remove('active');
+            loginModal.classList.remove('active');
         }
         
-        function animateButterfly(butterfly) {
-            const speed = Math.random() * 3 + 2; // 2 to 5 seconds
+        // Show quotes page
+        function showQuotesPage() {
+            const quotesPage = document.querySelector('.quotes-page');
+            quotesPage.classList.add('active');
             
-            function move() {
-                const targetX = Math.random() * window.innerWidth;
-                const targetY = Math.random() * window.innerHeight;
-                
-                butterfly.style.transition = `left ${speed}s ease-in-out, top ${speed}s ease-in-out`;
-                butterfly.style.left = targetX + 'px';
-                butterfly.style.top = targetY + 'px';
-                
-                setTimeout(move, speed * 1000);
-            }
-            
-            move();
+            // Display a random quote
+            displayRandomQuote();
         }
         
-        // Initialize all animations
+        // Hide quotes page
+        function hideQuotesPage() {
+            const quotesPage = document.querySelector('.quotes-page');
+            quotesPage.classList.remove('active');
+        }
+        
+        // Display a random quote
+        function displayRandomQuote() {
+            const quoteElement = document.querySelector('.quote');
+            const authorElement = document.querySelector('.author');
+            
+            // Remove active class to reset animation
+            quoteElement.classList.remove('active');
+            authorElement.classList.remove('active');
+            
+            // Get random quote
+            const randomIndex = Math.floor(Math.random() * spaceQuotes.length);
+            const randomQuote = spaceQuotes[randomIndex];
+            
+            // Set timeout to allow animation reset
+            setTimeout(() => {
+                quoteElement.textContent = `"${randomQuote.quote}"`;
+                authorElement.textContent = `- ${randomQuote.author}`;
+                
+                // Add active class to trigger animation
+                quoteElement.classList.add('active');
+                authorElement.classList.add('active');
+            }, 100);
+        }
+        
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
-            createFallingStars();
-            createCosmicDust();
-            createButterflies();
+            createShootingStars();
             
-            // Add shimmer effect to login button
+            // Login button click
+            const loginBtn = document.querySelector('.login-nav-btn');
+            loginBtn.addEventListener('click', showLoginModal);
+            
+            // Close login modal
+            const closeBtn = document.querySelector('.close-btn');
+            closeBtn.addEventListener('click', hideLoginModal);
+            
+            // Help button click (show quotes)
+            const helpBtn = document.querySelector('.help-nav-btn');
+            helpBtn.addEventListener('click', showQuotesPage);
+            
+            // Close quotes page
+            const closeQuotesBtn = document.querySelector('.close-quotes-btn');
+            closeQuotesBtn.addEventListener('click', hideQuotesPage);
+            
+            // Next quote button
+            const nextQuoteBtn = document.querySelector('.next-quote-btn');
+            nextQuoteBtn.addEventListener('click', displayRandomQuote);
+            
+            // Close modal when clicking overlay
+            const overlay = document.querySelector('.overlay');
+            overlay.addEventListener('click', hideLoginModal);
+            
+            // Simulate stars moving across the screen
+            const stars = document.querySelectorAll('.star');
             setInterval(() => {
-                const btn = document.querySelector('.btn');
-                btn.style.background = 'linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1))';
-                btn.style.backgroundSize = '200% 100%';
-                btn.classList.add('shimmer');
-                
-                setTimeout(() => {
-                    btn.classList.remove('shimmer');
-                    btn.style.background = 'rgba(255, 255, 255, 0.1)';
-                }, 1000);
-            }, 5000);
-            
-            // Login button functionality
-            const loginNavBtn = document.querySelector('.login-nav-btn');
-            const container = document.querySelector('.container');
-            
-            loginNavBtn.addEventListener('click', function() {
-                container.style.animation = 'none';
-                void container.offsetWidth; // Trigger reflow
-                container.style.animation = 'containerFloat 6s ease-in-out infinite';
-                
-                // Add focus effect
-                container.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.3), 0 25px 45px rgba(0, 0, 0, 0.2)';
-                setTimeout(() => {
-                    container.style.boxShadow = '0 25px 45px rgba(0, 0, 0, 0.2)';
-                }, 2000);
-            });
-            
-            // Social icons hover effect
-            const socialIcons = document.querySelectorAll('.social-icon');
-            socialIcons.forEach(icon => {
-                icon.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px) scale(1.1)';
+                stars.forEach(star => {
+                    const currentLeft = parseFloat(star.style.left);
+                    const newLeft = (currentLeft - 0.05 + 100) % 100;
+                    star.style.left = `${newLeft}%`;
                 });
-                
-                icon.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                });
-            });
+            }, 100);
         });
     </script>
 </body>
