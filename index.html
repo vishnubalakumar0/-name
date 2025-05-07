@@ -2,81 +2,417 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website with login and registration form</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Animated Login Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #8a2be2, #4b0082);
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            padding: 40px;
+            transform-style: preserve-3d;
+        }
+
+        .form {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        h2 {
+            color: white;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .inputBox {
+            position: relative;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .inputBox input {
+            width: 100%;
+            padding: 10px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            outline: none;
+            font-size: 16px;
+            letter-spacing: 1px;
+            color: white;
+            transition: 0.5s;
+        }
+
+        .inputBox input:focus {
+            border-bottom: 2px solid white;
+        }
+
+        .inputBox label {
+            position: absolute;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            transition: 0.5s;
+        }
+
+        .inputBox input:focus ~ label,
+        .inputBox input:valid ~ label {
+            transform: translateY(-20px);
+            font-size: 12px;
+            color: white;
+            letter-spacing: 1.5px;
+        }
+
+        .inputBox input:focus ~ .bar:before,
+        .inputBox input:valid ~ .bar:before {
+            width: 100%;
+        }
+
+        .bar {
+            position: relative;
+            display: block;
+            width: 100%;
+        }
+
+        .bar:before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: white;
+            transition: 0.5s;
+        }
+
+        .btn {
+            position: relative;
+            width: 100%;
+            padding: 12px 0;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            color: #8a2be2;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover:before {
+            left: 100%;
+        }
+
+        .butterfly {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+        }
+
+        .butterfly .wing {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50% 50% 0 50%;
+            transform-origin: bottom right;
+        }
+
+        .butterfly .wing.left {
+            left: 5px;
+            transform: rotate(30deg);
+            animation: flapLeft 2s infinite ease-in-out;
+        }
+
+        .butterfly .wing.right {
+            right: 5px;
+            transform: scaleX(-1) rotate(30deg);
+            animation: flapRight 2s infinite ease-in-out;
+        }
+
+        .butterfly .body {
+            position: absolute;
+            width: 4px;
+            height: 30px;
+            background: white;
+            left: 50%;
+            top: 10px;
+            transform: translateX(-50%);
+        }
+
+        @keyframes flapLeft {
+            0%, 100% { transform: rotate(30deg); }
+            50% { transform: rotate(70deg); }
+        }
+
+        @keyframes flapRight {
+            0%, 100% { transform: scaleX(-1) rotate(30deg); }
+            50% { transform: scaleX(-1) rotate(70deg); }
+        }
+
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        .circles li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .circles li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .circles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .circles li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .circles li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .circles li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .circles li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .circles li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+    </style>
 </head>
 <body>
-    
-    <header class="navigation">
-        <h2 class="logo">Logo</h2>
-        <nav class="navigation">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Servies</a>
-            <a href="#">Contact</a>
-        </nav>
-        <button class="btnLogin-popup">Login</button>
-    </header>
-    <div class="wrapper">
-        <span class="icon-close"><ion-icon name="close"></ion-icon></span>
-        <div class="form-box login">
-            <h2>Login</h2>
-            <form action="#">
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                    <input type="text" required>
-                    <label>Email</label>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" required>
-                    <label>Password</label>
-                </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox">Remember me</label>
-                    <a href="#">Forgot Password?</a>
-                </div>
-                <button type="subm" class="btn">Login</button>
-                <div class="login-register">
-                    <p>Don't have an account? <a href="#" class="register-link">Register</a></p>
-                </div>
-            </form>
-        </div>
-
-
-        <div class="form-box register">
-            <h2>Registration</h2>
-            <form action="#">
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="person"></ion-icon></span>
-                    <input type="text" required>
-                    <label>Username</label>
-                </div>
-
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                    <input type="text" required>
-                    <label>Email</label>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
-                    <input type="password" required>
-                    <label>Password</label>
-                </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox">I agree to the terms & conditions</label>
-                </div>
-                <button type="submit" class="btn">Register</button>
-                <div class="login-register">
-                    <p>Already have an account? <a href="#" class="login-link">Login</a></p>
-                </div>
-            </form>
+    <div class="container">
+        <div class="form">
+            <h2>Welcome Back</h2>
+            <div class="inputBox">
+                <input type="text" required>
+                <span class="bar"></span>
+                <label>Username</label>
+            </div>
+            <div class="inputBox">
+                <input type="password" required>
+                <span class="bar"></span>
+                <label>Password</label>
+            </div>
+            <button class="btn">Login</button>
         </div>
     </div>
 
->
-    
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <script>
+        // Create and animate butterflies
+        function createButterflies() {
+            const numButterflies = 15;
+            const body = document.querySelector('body');
+            
+            for (let i = 0; i < numButterflies; i++) {
+                const butterfly = document.createElement('div');
+                butterfly.className = 'butterfly';
+                
+                const leftWing = document.createElement('div');
+                leftWing.className = 'wing left';
+                
+                const rightWing = document.createElement('div');
+                rightWing.className = 'wing right';
+                
+                const butterflyBody = document.createElement('div');
+                butterflyBody.className = 'body';
+                
+                butterfly.appendChild(leftWing);
+                butterfly.appendChild(rightWing);
+                butterfly.appendChild(butterflyBody);
+                
+                // Random position
+                butterfly.style.left = Math.random() * window.innerWidth + 'px';
+                butterfly.style.top = Math.random() * window.innerHeight + 'px';
+                
+                // Random size
+                const size = Math.random() * 0.5 + 0.5; // 0.5 to 1
+                butterfly.style.transform = `scale(${size})`;
+                
+                // Random animation duration
+                const animDuration = Math.random() * 5 + 5; // 5 to 10 seconds
+                leftWing.style.animationDuration = animDuration + 's';
+                rightWing.style.animationDuration = animDuration + 's';
+                
+                body.appendChild(butterfly);
+                
+                // Animate butterfly movement
+                animateButterfly(butterfly);
+            }
+        }
+        
+        function animateButterfly(butterfly) {
+            const speed = Math.random() * 3 + 2; // 2 to 5 seconds
+            
+            function move() {
+                const targetX = Math.random() * window.innerWidth;
+                const targetY = Math.random() * window.innerHeight;
+                
+                butterfly.style.transition = `left ${speed}s ease-in-out, top ${speed}s ease-in-out`;
+                butterfly.style.left = targetX + 'px';
+                butterfly.style.top = targetY + 'px';
+                
+                setTimeout(move, speed * 1000);
+            }
+            
+            move();
+        }
+        
+        // Initialize butterflies
+        createButterflies();
+        
+        // Add shimmer effect to login button
+        setInterval(() => {
+            const btn = document.querySelector('.btn');
+            btn.classList.add('shimmer');
+            setTimeout(() => {
+                btn.classList.remove('shimmer');
+            }, 1000);
+        }, 5000);
+    </script>
 </body>
 </html>
