@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Login Page</title>
+    <title>Cosmic Login Experience</title>
     <style>
         * {
             margin: 0;
@@ -17,27 +17,185 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(45deg, #8a2be2, #4b0082);
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e);
             overflow: hidden;
+            position: relative;
         }
 
+        /* Cosmic background */
+        .cosmic-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(20, 20, 50, 0.2) 0%, rgba(10, 10, 30, 0.5) 100%);
+            z-index: -3;
+        }
+
+        /* Galaxy animation */
+        .galaxy {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 800 800"><g fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"><circle cx="400" cy="400" r="300"/><circle cx="400" cy="400" r="250"/><circle cx="400" cy="400" r="200"/><circle cx="400" cy="400" r="150"/><circle cx="400" cy="400" r="100"/><circle cx="400" cy="400" r="50"/></g></svg>') center/cover;
+            opacity: 0.3;
+            animation: rotate 120s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.5);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        /* Nebula effect */
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                rgba(100, 0, 255, 0.1) 0%, 
+                rgba(0, 0, 0, 0) 70%),
+                radial-gradient(ellipse at 80% 40%, 
+                rgba(255, 0, 100, 0.1) 0%, 
+                rgba(0, 0, 0, 0) 70%),
+                radial-gradient(ellipse at 10% 60%, 
+                rgba(0, 200, 255, 0.1) 0%, 
+                rgba(0, 0, 0, 0) 70%);
+            opacity: 0.5;
+            animation: nebula-pulse 15s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+
+        @keyframes nebula-pulse {
+            0% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0.7;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: var(--opacity);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--opacity); }
+            50% { opacity: 0.2; }
+        }
+
+        /* Falling stars */
+        .falling-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: fall var(--fall-duration) linear forwards;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) translateX(0) rotate(0deg);
+                opacity: 1;
+                width: 2px;
+                height: 2px;
+                box-shadow: 0 0 0 transparent;
+            }
+            20% {
+                opacity: 1;
+                width: 4px;
+                height: 4px;
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--translateX)) rotate(var(--rotate));
+                opacity: 0;
+                width: 2px;
+                height: 2px;
+                box-shadow: 0 0 0 transparent;
+            }
+        }
+
+        /* Cosmic dust particles */
+        .dust-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float var(--float-duration) linear infinite;
+            opacity: var(--dust-opacity);
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(var(--translateX), var(--translateY)) rotate(var(--rotate));
+            }
+        }
+
+        /* Login container */
         .container {
             position: relative;
             width: 350px;
             height: 500px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2),
+                        0 0 30px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             z-index: 10;
             padding: 40px;
             transform-style: preserve-3d;
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+            25% { transform: translateY(-10px) rotateX(2deg) rotateY(-2deg); }
+            50% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+            75% { transform: translateY(10px) rotateX(-2deg) rotateY(2deg); }
         }
 
         .form {
@@ -52,6 +210,13 @@
             letter-spacing: 2px;
             margin-bottom: 30px;
             text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+            50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 30px rgba(120, 0, 255, 0.5); }
         }
 
         .inputBox {
@@ -65,7 +230,7 @@
             padding: 10px 0;
             background: transparent;
             border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             outline: none;
             font-size: 16px;
             letter-spacing: 1px;
@@ -74,7 +239,7 @@
         }
 
         .inputBox input:focus {
-            border-bottom: 2px solid white;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
         }
 
         .inputBox label {
@@ -91,7 +256,7 @@
         .inputBox input:valid ~ label {
             transform: translateY(-20px);
             font-size: 12px;
-            color: white;
+            color: rgba(255, 255, 255, 0.8);
             letter-spacing: 1.5px;
         }
 
@@ -113,7 +278,7 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background: white;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
             transition: 0.5s;
         }
 
@@ -121,10 +286,10 @@
             position: relative;
             width: 100%;
             padding: 12px 0;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             border-radius: 30px;
-            color: #8a2be2;
+            color: white;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -135,7 +300,9 @@
 
         .btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
+                        0 0 20px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .btn:before {
@@ -145,7 +312,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
         }
 
@@ -153,39 +320,101 @@
             left: 100%;
         }
 
+        .shimmer {
+            animation: shimmer 1s linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Navigation buttons */
+        .nav-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2),
+                        0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .nav-btn:hover:before {
+            left: 100%;
+        }
+
+        /* Butterfly styles */
         .butterfly {
             position: absolute;
             width: 50px;
             height: 50px;
             pointer-events: none;
+            z-index: 5;
         }
 
         .butterfly .wing {
             position: absolute;
             width: 20px;
             height: 30px;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50% 50% 0 50%;
             transform-origin: bottom right;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .butterfly .wing.left {
             left: 5px;
             transform: rotate(30deg);
             animation: flapLeft 2s infinite ease-in-out;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
         }
 
         .butterfly .wing.right {
             right: 5px;
             transform: scaleX(-1) rotate(30deg);
             animation: flapRight 2s infinite ease-in-out;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(0, 255, 255, 0.3));
         }
 
         .butterfly .body {
             position: absolute;
             width: 4px;
             height: 30px;
-            background: white;
+            background: rgba(255, 255, 255, 0.5);
             left: 50%;
             top: 10px;
             transform: translateX(-50%);
@@ -201,120 +430,119 @@
             50% { transform: scaleX(-1) rotate(70deg); }
         }
 
-        .circles {
+        /* Social links */
+        .social-links {
             position: absolute;
-            top: 0;
+            bottom: 20px;
             left: 0;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
 
-        .circles li {
-            position: absolute;
-            display: block;
-            list-style: none;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            animation: animate 25s linear infinite;
-            bottom: -150px;
+        .social-icon {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            transition: 0.3s;
+            cursor: pointer;
         }
 
-        .circles li:nth-child(1) {
-            left: 25%;
-            width: 80px;
-            height: 80px;
-            animation-delay: 0s;
+        .social-icon:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                        0 0 15px rgba(255, 255, 255, 0.2);
         }
 
-        .circles li:nth-child(2) {
-            left: 10%;
-            width: 20px;
-            height: 20px;
-            animation-delay: 2s;
-            animation-duration: 12s;
+        /* Forgot password link */
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
         }
 
-        .circles li:nth-child(3) {
-            left: 70%;
-            width: 20px;
-            height: 20px;
-            animation-delay: 4s;
+        .forgot-password a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
         }
 
-        .circles li:nth-child(4) {
-            left: 40%;
-            width: 60px;
-            height: 60px;
-            animation-delay: 0s;
-            animation-duration: 18s;
+        .forgot-password a:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        .circles li:nth-child(5) {
-            left: 65%;
-            width: 20px;
-            height: 20px;
-            animation-delay: 0s;
+        /* Remember me checkbox */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
-        .circles li:nth-child(6) {
-            left: 75%;
-            width: 110px;
-            height: 110px;
-            animation-delay: 3s;
+        .remember-me input {
+            margin-right: 10px;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: 0.3s;
         }
 
-        .circles li:nth-child(7) {
-            left: 35%;
-            width: 150px;
-            height: 150px;
-            animation-delay: 7s;
+        .remember-me input:checked {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
-        .circles li:nth-child(8) {
+        .remember-me input:checked:after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            top: 50%;
             left: 50%;
-            width: 25px;
-            height: 25px;
-            animation-delay: 15s;
-            animation-duration: 45s;
+            transform: translate(-50%, -50%);
         }
 
-        .circles li:nth-child(9) {
-            left: 20%;
-            width: 15px;
-            height: 15px;
-            animation-delay: 2s;
-            animation-duration: 35s;
-        }
-
-        .circles li:nth-child(10) {
-            left: 85%;
-            width: 150px;
-            height: 150px;
-            animation-delay: 0s;
-            animation-duration: 11s;
-        }
-
-        @keyframes animate {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-                border-radius: 0;
-            }
-            100% {
-                transform: translateY(-1000px) rotate(720deg);
-                opacity: 0;
-                border-radius: 50%;
-            }
+        .remember-me label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <!-- Cosmic background layers -->
+    <div class="cosmic-background"></div>
+    <div class="galaxy"></div>
+    <div class="nebula"></div>
+    
+    <!-- Stars container -->
+    <div class="stars"></div>
+    
+    <!-- Navigation buttons -->
+    <div class="nav-buttons">
+        <button class="nav-btn login-nav-btn">Login</button>
+        <button class="nav-btn">Home</button>
+        <button class="nav-btn">About</button>
+        <button class="nav-btn">Contact</button>
+    </div>
+
     <div class="container">
         <div class="form">
-            <h2>Welcome Back</h2>
+            <h2>Cosmic Login</h2>
             <div class="inputBox">
                 <input type="text" required>
                 <span class="bar"></span>
@@ -325,24 +553,132 @@
                 <span class="bar"></span>
                 <label>Password</label>
             </div>
-            <button class="btn">Login</button>
+            
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Remember me</label>
+            </div>
+            
+            <button class="btn">Enter the Cosmos</button>
+            
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
         </div>
     </div>
-
-    <ul class="circles">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
+    
+    <div class="social-links">
+        <div class="social-icon">f</div>
+        <div class="social-icon">in</div>
+        <div class="social-icon">G</div>
+    </div>
 
     <script>
+        // Create stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size between 1-3px
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random opacity
+                const opacity = Math.random() * 0.8 + 0.2;
+                star.style.setProperty('--opacity', opacity);
+                
+                // Random animation duration
+                const duration = Math.random() * 3 + 2;
+                star.style.setProperty('--duration', `${duration}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Create falling stars
+        function createFallingStars() {
+            const body = document.querySelector('body');
+            
+            function createFallingStar() {
+                const star = document.createElement('div');
+                star.className = 'falling-star';
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                
+                // Random fall duration
+                const fallDuration = Math.random() * 3 + 2;
+                star.style.setProperty('--fall-duration', `${fallDuration}s`);
+                
+                // Random horizontal movement
+                const translateX = (Math.random() - 0.5) * 200;
+                star.style.setProperty('--translateX', `${translateX}px`);
+                
+                // Random rotation
+                const rotate = (Math.random() - 0.5) * 360;
+                star.style.setProperty('--rotate', `${rotate}deg`);
+                
+                body.appendChild(star);
+                
+                // Remove star after animation completes
+                setTimeout(() => {
+                    star.remove();
+                }, fallDuration * 1000);
+            }
+            
+            // Create a falling star every 1-3 seconds
+            setInterval(() => {
+                createFallingStar();
+            }, Math.random() * 2000 + 1000);
+        }
+        
+        // Create cosmic dust particles
+        function createCosmicDust() {
+            const body = document.querySelector('body');
+            const dustCount = 100;
+            
+            for (let i = 0; i < dustCount; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust-particle';
+                
+                // Random size
+                const size = Math.random() * 1.5 + 0.5;
+                dust.style.width = `${size}px`;
+                dust.style.height = `${size}px`;
+                
+                // Random position
+                dust.style.left = `${Math.random() * 100}%`;
+                dust.style.top = `${Math.random() * 100}%`;
+                
+                // Random opacity
+                const opacity = Math.random() * 0.5 + 0.1;
+                dust.style.setProperty('--dust-opacity', opacity);
+                
+                // Random movement
+                const translateX = (Math.random() - 0.5) * 100;
+                const translateY = (Math.random() - 0.5) * 100;
+                const rotate = Math.random() * 360;
+                dust.style.setProperty('--translateX', `${translateX}px`);
+                dust.style.setProperty('--translateY', `${translateY}px`);
+                dust.style.setProperty('--rotate', `${rotate}deg`);
+                
+                // Random animation duration
+                const floatDuration = Math.random() * 20 + 10;
+                dust.style.setProperty('--float-duration', `${floatDuration}s`);
+                
+                body.appendChild(dust);
+            }
+        }
+        
         // Create and animate butterflies
         function createButterflies() {
             const numButterflies = 15;
@@ -402,17 +738,54 @@
             move();
         }
         
-        // Initialize butterflies
-        createButterflies();
-        
-        // Add shimmer effect to login button
-        setInterval(() => {
-            const btn = document.querySelector('.btn');
-            btn.classList.add('shimmer');
-            setTimeout(() => {
-                btn.classList.remove('shimmer');
-            }, 1000);
-        }, 5000);
+        // Initialize all animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            createFallingStars();
+            createCosmicDust();
+            createButterflies();
+            
+            // Add shimmer effect to login button
+            setInterval(() => {
+                const btn = document.querySelector('.btn');
+                btn.style.background = 'linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1))';
+                btn.style.backgroundSize = '200% 100%';
+                btn.classList.add('shimmer');
+                
+                setTimeout(() => {
+                    btn.classList.remove('shimmer');
+                    btn.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 1000);
+            }, 5000);
+            
+            // Login button functionality
+            const loginNavBtn = document.querySelector('.login-nav-btn');
+            const container = document.querySelector('.container');
+            
+            loginNavBtn.addEventListener('click', function() {
+                container.style.animation = 'none';
+                void container.offsetWidth; // Trigger reflow
+                container.style.animation = 'containerFloat 6s ease-in-out infinite';
+                
+                // Add focus effect
+                container.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.3), 0 25px 45px rgba(0, 0, 0, 0.2)';
+                setTimeout(() => {
+                    container.style.boxShadow = '0 25px 45px rgba(0, 0, 0, 0.2)';
+                }, 2000);
+            });
+            
+            // Social icons hover effect
+            const socialIcons = document.querySelectorAll('.social-icon');
+            socialIcons.forEach(icon => {
+                icon.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.1)';
+                });
+                
+                icon.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
     </script>
 </body>
 </html>
